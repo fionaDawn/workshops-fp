@@ -35,6 +35,9 @@
 // ********************************************************************
 // ********************************************************************
 
+// To run this, run `node CollationProblem.js` on the directory
+// you may change input values starting at line 103
+
 
 // needed to print nested maps
 const util = require('util')

@@ -15,7 +15,7 @@ const util = require('util')
 // this function simply groups a list by key
 // it checks if list is object or array since we want 
 // to return an object for single record, otherwise return array
-const groupBy = (key, list) => {
+const group_by = (key, list) => {
     // we need to check if record is an array value
     if (!list.length) {
         return list[key] ? new Map([[list[key], list]]) : list;
@@ -46,14 +46,15 @@ const groupBy = (key, list) => {
 // Returns a string table of tables (up to length(keys) deep) of all source records collated as per keys
 const collate_records = (keys, records) => {
     // if there is only 1 key, no need to do recursion
-    if (keys.length === 1) return groupBy(keys[0], records)
+    if (keys.length === 1) return group_by(keys[0], records)
 
+    // get key at index 0 and remove it from keys list
     const currentKey = keys.shift();
-    const grouped = groupBy(currentKey, records);
-    for (let key of grouped.keys()) {
-        grouped.set(key, collate_records(keys, grouped.get(key)));
+    const groupedRecords = group_by(currentKey, records);
+    for (let key of groupedRecords.keys()) {
+        groupedRecords.set(key, collate_records(keys, groupedRecords.get(key)));
     }
-    return grouped;
+    return groupedRecords;
 
 }
 
